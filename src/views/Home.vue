@@ -17,9 +17,9 @@
           </thead>
           <tbody>
             <tr v-for="(note, index) in notes" :key="index">
-              <td>{{ note.Title }}</td>
-              <td>{{ note.Body }}</td>
-              <td>{{ note.CreateTime }}</td>
+              <td>{{ note.title }}</td>
+              <td>{{ note.body }}</td>
+              <td>{{ note.createTime }}</td>
               <td>
                 <button type="button" class="btn btn-warning btn-sm">Изменить</button>
                 <button type="button" class="btn btn-danger btn-sm">Удалить</button>
@@ -82,7 +82,7 @@ export default {
   },
   methods: {
     getNotes() {
-      const path = 'http://localhost:50898/api/Notes';
+      const path = 'http://localhost:63508/api/Notes';
       axios.get(path)
         .then((res) => {
           this.notes = res.data;
