@@ -29,7 +29,7 @@
         </table>
       </div>
     </div>
-    <b-modal ref="addBookModal"
+    <!-- <b-modal ref="addBookModal"
          id="book-modal"
          title="Add a new book"
          hide-footer>
@@ -62,7 +62,7 @@
     <b-button type="submit" variant="primary">Submit</b-button>
     <b-button type="reset" variant="danger">Reset</b-button>
   </b-form>
-</b-modal>
+</b-modal> -->
   </div>
 </template>
 
@@ -82,7 +82,7 @@ export default {
   },
   methods: {
     getNotes() {
-      const path = 'http://localhost:63508/api/Notes';
+      const path = 'http://localhost:52362/api/Notes';
       axios.get(path)
         .then((res) => {
           this.notes = res.data;
@@ -93,41 +93,41 @@ export default {
         });
     },
   },
-  addNote(payload) {
-      const path = 'http://localhost:50898/api/Notes';
-      axios.post(path, payload)
-        .then(() => {
-          this.getNotes();
-        })
-        .catch((error) => {
-          // eslint-отключение следующей строки
-          console.log(error);
-          this.getNotes();
-        });
-    },
-    initForm() {
-      this.addNoteForm.Title = '';
-      this.addNoteForm.Body = '';
-      this.addNoteForm.CreateTime = [];
-    },
-    onSubmit(evt) {
-      evt.preventDefault();
-      this.$refs.addNoteModal.hide();
-      let read = false;
-      if (this.addNoteForm.read[0]) read = true;
-      const payload = {
-        Title: this.addNoteForm.Title,
-        Body: this.addNoteForm.Body,
-        CreateTime:this.addNoteForm.CreateTime, // сокращённое свойство
-      };
-      this.addNote(payload);
-      this.initForm();
-    },
-    onReset(evt) {
-      evt.preventDefault();
-      this.$refs.addNoteModal.hide();
-      this.initForm();
-    },
+  // addNote(payload) {
+  //     const path = 'http://localhost:50898/api/Notes';
+  //     axios.post(path, payload)
+  //       .then(() => {
+  //         this.getNotes();
+  //       })
+  //       .catch((error) => {
+  //         // eslint-отключение следующей строки
+  //         console.log(error);
+  //         this.getNotes();
+  //       });
+  //   },
+  //   initForm() {
+  //     this.addNoteForm.Title = '';
+  //     this.addNoteForm.Body = '';
+  //     this.addNoteForm.CreateTime = [];
+  //   },
+  //   onSubmit(evt) {
+  //     evt.preventDefault();
+  //     this.$refs.addNoteModal.hide();
+  //     let read = false;
+  //     if (this.addNoteForm.read[0]) read = true;
+  //     const payload = {
+  //       Title: this.addNoteForm.Title,
+  //       Body: this.addNoteForm.Body,
+  //       CreateTime:this.addNoteForm.CreateTime, // сокращённое свойство
+  //     };
+  //     this.addNote(payload);
+  //     this.initForm();
+  //   },
+  //   onReset(evt) {
+  //     evt.preventDefault();
+  //     this.$refs.addNoteModal.hide();
+  //     this.initForm();
+    // },
   created() {
     this.getNotes();
   },
