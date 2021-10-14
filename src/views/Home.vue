@@ -4,7 +4,7 @@
       <div class="col-sm-10">
         <h1>Заметки</h1>
         <hr><br><br>
-        <button type="button" class="btn btn-success btn-sm">Добавить заметку</button>
+        <button type="button" class="btn btn-success btn-sm " v-b-modal.note-modal >Добавить заметку</button>
         <br><br>
         <table class="table table-hover">
           <thead>
@@ -29,40 +29,51 @@
         </table>
       </div>
     </div>
-    <!-- <b-modal ref="addBookModal"
-         id="book-modal"
-         title="Add a new book"
+    <b-modal ref="addNoteModal"
+         id="note-modal"
+         title="Добавить новую заметку"
          hide-footer>
   <b-form @submit="onSubmit" @reset="onReset" class="w-100">
-  <b-form-group id="form-title-group"
-                label="Title:"
+    <b-form-group 
+                id="form-title-group"
+                label="Заголовок заметки:"
                 label-for="form-title-input">
       <b-form-input id="form-title-input"
                     type="text"
-                    v-model="addBookForm.title"
+                    v-model="addNoteForm.title"
                     required
-                    placeholder="Enter title">
+                    placeholder="Введите заголовок">
       </b-form-input>
     </b-form-group>
-    <b-form-group id="form-author-group"
-                  label="Author:"
-                  label-for="form-author-input">
-        <b-form-input id="form-author-input"
+
+    <b-form-group id="form-body-group"
+                  label="Текст:"
+                  label-for="form-body-input">
+
+        <b-form-input id="form-body-input"
                       type="text"
-                      v-model="addBookForm.author"
+                      v-model="addNotrForm.body"
                       required
-                      placeholder="Enter author">
+                      placeholder="Введите текст заметки">
         </b-form-input>
       </b-form-group>
-    <b-form-group id="form-read-group">
-      <b-form-checkbox-group v-model="addBookForm.read" id="form-checks">
-        <b-form-checkbox value="true">Read?</b-form-checkbox>
-      </b-form-checkbox-group>
-    </b-form-group>
-    <b-button type="submit" variant="primary">Submit</b-button>
-    <b-button type="reset" variant="danger">Reset</b-button>
+
+      <b-form-group id="form-createTime-group"
+                  label="Дата создания:"
+                  label-for="form-createTime-input">
+
+        <b-form-input id="form-createTime-input"
+                      type="text"
+                      v-model="addNotrForm.createTime"
+                      required
+                      >
+        </b-form-input>
+      </b-form-group>
+
+    <b-button type="submit" variant="primary">Сохранить</b-button>
+    <b-button type="reset" variant="danger">Сбросить</b-button>
   </b-form>
-</b-modal> -->
+</b-modal>
   </div>
 </template>
 
@@ -74,15 +85,15 @@ export default {
     return {
       notes: [],
        addNoteForm: {
-        Title: '',
-        Body: '',
-        CreateTime: '',
+        title: '',
+        body: '',
+        createTime: ''
       },
     };
   },
   methods: {
     getNotes() {
-      const path = 'http://localhost:52362/api/Notes';
+      const path = "http://localhost:52362/api/Notes";
       axios.get(path)
         .then((res) => {
           this.notes = res.data;
@@ -93,41 +104,47 @@ export default {
         });
     },
   },
-  // addNote(payload) {
-  //     const path = 'http://localhost:50898/api/Notes';
-  //     axios.post(path, payload)
-  //       .then(() => {
-  //         this.getNotes();
-  //       })
-  //       .catch((error) => {
-  //         // eslint-отключение следующей строки
-  //         console.log(error);
-  //         this.getNotes();
-  //       });
-  //   },
-  //   initForm() {
-  //     this.addNoteForm.Title = '';
-  //     this.addNoteForm.Body = '';
-  //     this.addNoteForm.CreateTime = [];
-  //   },
-  //   onSubmit(evt) {
-  //     evt.preventDefault();
-  //     this.$refs.addNoteModal.hide();
-  //     let read = false;
-  //     if (this.addNoteForm.read[0]) read = true;
-  //     const payload = {
-  //       Title: this.addNoteForm.Title,
-  //       Body: this.addNoteForm.Body,
-  //       CreateTime:this.addNoteForm.CreateTime, // сокращённое свойство
-  //     };
-  //     this.addNote(payload);
-  //     this.initForm();
-  //   },
-  //   onReset(evt) {
-  //     evt.preventDefault();
-  //     this.$refs.addNoteModal.hide();
-  //     this.initForm();
-    // },
+  addNote(payload) {
+      const path = "http://localhost:52362/api/Notes";
+      axios.post(path, payload)
+        .then(() => {
+          this.getNotes();
+          console.log("POST запрос был отправлен")
+        })
+        .catch((error) => {
+          // eslint-отключение следующей строки
+          console.log(error);
+          this.getNotes();
+        });
+    },
+    initForm() {
+      this.addNoteForm.title = '';
+      this.addNoteForm.body = '';
+      this.addNoteForm.c
+      reateTime = [];
+    },
+    onSubmit(evt) {
+      evt.preventDefault();
+      this.$refs.addNoteModal.hide();
+      let read = false;
+      if (this.addNoteForm.read[0]) read = true;
+
+
+      const payload = {
+        title: this.addNoteForm.title,
+        body: this.addNoteForm.body,
+        createTime:this.addNoteForm.createTime 
+      };
+
+      
+      this.addNote(payload);
+      this.initForm();
+    },
+    onReset(evt) {
+      evt.preventDefault();
+      this.$refs.addNoteModal.hide();
+      this.initForm();
+    },
   created() {
     this.getNotes();
   },
